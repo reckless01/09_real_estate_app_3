@@ -10,13 +10,15 @@ class Purchase:
         self.sale_date = sale_date
         self.type = home_type
         self.sq__ft = sq__ft
+        self.beds = beds
         self.baths = baths
         self.state = state
         self.zip = zipcode
         self.city = city
         self.street = street
 
-    def create_from_dict(self, lookup):
+    @staticmethod
+    def create_from_dict(lookup):
         return Purchase(
             lookup['street'],
             lookup['city'],

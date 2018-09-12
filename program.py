@@ -2,7 +2,7 @@ import csv
 import os
 from data_types import Purchase
 
-#comment here 3
+
 def main():
     print_header()
     filename = get_data_file()
@@ -27,10 +27,11 @@ def load_file(filename):
         reader = csv.DictReader(fin)
         purchases = []
         for row in reader:
-            print(type(row), row)
-            print("Bed Count: {}, type: {}".format(row['beds'], type(row['beds'])))
             p = Purchase.create_from_dict(row)
             purchases.append(p)
+
+        # print(purchases[0].__dict__)
+        return purchases
 
         # header = fin.readline().strip()
         # reader = csv.reader(fin, delimiter=",")
@@ -54,6 +55,22 @@ def load_file(filename):
 
 
 def query_data(data):
+    # most/lease expensive house
+    # average price house
+    # average price 2 bedroom house
+
+    # most expensive
+    high_purchase = data[-1]
+    print("The most expensive house is ${:,}, with {} beds and {} baths".format(
+        high_purchase.price, high_purchase.beds, high_purchase.baths))
+
+    # least expensive
+    low_purchase = data[0]
+    print("The least expensive house is ${:,}, with {} beds and {} baths".format(
+        low_purchase.price, low_purchase.beds, low_purchase.baths))
+
+    # sorted by price
+    data.sort(key=lambda p: p.price)
     pass
 
 
