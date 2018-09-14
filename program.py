@@ -1,5 +1,12 @@
 import csv
 import os
+try:
+    import statistics
+except:
+    # error code instead
+    import stats_standin_for_py2.py as statistics
+
+
 from data_types import Purchase
 
 
@@ -56,8 +63,6 @@ def load_file(filename):
 
 def query_data(data):
     # most/lease expensive house
-    # average price house
-    # average price 2 bedroom house
 
     # most expensive
     high_purchase = data[-1]
@@ -68,6 +73,33 @@ def query_data(data):
     low_purchase = data[0]
     print("The least expensive house is ${:,}, with {} beds and {} baths".format(
         low_purchase.price, low_purchase.beds, low_purchase.baths))
+
+    # average price house
+
+    prices = [
+        p.price  # projection or items to create
+        for p in data  # set to process
+    ]
+
+    ave_price = statistics.mean(prices)
+    print("The average home price is ${:,}".format(int(ave_price)))
+
+    # average price 2 bedroom house
+    # prices = []
+    # for pur in data:
+    #     if pur.beds == 2:
+    #         prices.append(pur.price)
+    two_bed_homes = [
+        p  # projection or items to create
+        for p in data  # set to process
+        if p.beds == 2  # test / condition
+    ]
+
+    ave_price = statistics.mean([p.price for p in two_bed_homes])
+    ave_baths = statistics.mean([p.baths for p in two_bed_homes])
+    ave_sqft = statistics.mean([p.sq__ft for p in two_bed_homes])
+    print("Average 2-bedroom home is ${:,}, baths={}, sq ft={:,}"
+          .format(int(ave_price), round(ave_baths), round(ave_sqft)))
 
     # sorted by price
     data.sort(key=lambda p: p.price)
